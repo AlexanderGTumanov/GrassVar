@@ -1,4 +1,4 @@
-# GrassmannVariables for Mathematica
+# Grassmann variables for Mathematica
 An implementation of Grassmann anticommuting variables in Wolfram Mathematica.
 ## Installation
 Clone this repository using
