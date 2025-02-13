@@ -28,7 +28,7 @@ This package also supports matrix multiplication with Grassmann-valued entries v
 
 Additionally, Grassmann integration is implemented through the ``GIntegrate`` function:
 ```mathematica
-GIntegrate[expr, {a[1], .... , a[n]}, phase]
+GIntegrate[expr, {a[1], ... , a[n]}, phase]
 ```
 evaluates the following integral
 
