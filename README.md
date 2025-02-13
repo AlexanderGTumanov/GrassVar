@@ -33,7 +33,7 @@ GIntegrate[expr, {a[1], .... , a[n]}, phase]
 evaluates the following integral
 
 $$
-\int expr\ da_1\ldots da_n\ .
+\int expr\ da_1\ \ldots\ da_n\ .
 $$
 
 If only a single integration is required, the curly brackets in the second argument can be omitted. The phase argument is optional and allows modification of the baseline definition:
