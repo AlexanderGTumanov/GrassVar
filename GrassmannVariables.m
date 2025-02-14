@@ -12,9 +12,9 @@ FF[] := 1
 
 Clear[CircleTimes]
 a_\[CircleTimes]b_ := 
-	Block[{AA=Collect[a,FF[___]],BB=Collect[b,FF[___]]},
-		AA = If[TrueQ[Head@AA==Plus],List@@AA,{AA}];
-		BB = If[TrueQ[Head@BB==Plus],List@@BB,{BB}];
+	Block[{AA = Collect[a,FF[___]],BB=Collect[b,FF[___]]},
+		AA=If[TrueQ[Head@AA==Plus],List@@AA,{AA}];
+		BB=If[TrueQ[Head@BB==Plus],List@@BB,{BB}];
 		Sum[If[Length[Cases[{AA[[pp]],BB[[qq]]},FF[___],\[Infinity]]]<=1,AA[[pp]]BB[[qq]],(AA[[pp]]BB[[qq]]/.FF[___]->1)(FF@@Join[List@@(Cases[{AA[[pp]]},FF[___],\[Infinity]][[1]]), List@@(Cases[{BB[[qq]]},FF[___],\[Infinity]][[1]])])],{pp,Length[AA]},{qq,Length[BB]}]
 	]/;!ListQ[a]&&!ListQ[b]
 a_\[CircleTimes]b_ := a\[CircleTimes]#& /@ b /;!ListQ[a]&&ListQ[b]
@@ -24,9 +24,9 @@ CircleTimes[a_, b_, c__] := a\[CircleTimes](b\[CircleTimes]c)
 Clear[ParallelCircleTimes]
 ParallelCircleTimes[a_, b_] := 
 	Block[{AA=Collect[a,FF[___]],BB=Collect[b,FF[___]],index},
-		AA = If[TrueQ[Head@AA==Plus],List@@AA,{AA}];
-		BB = If[TrueQ[Head@BB==Plus],List@@BB,{BB}];
-		index = Flatten@Table[ind[pp,qq],{pp,Length[AA]},{qq,Length[BB]}]/.ind->List;
+		AA=If[TrueQ[Head@AA==Plus],List@@AA,{AA}];
+		BB=If[TrueQ[Head@BB==Plus],List@@BB,{BB}];
+		index=Flatten@Table[ind[pp,qq],{pp,Length[AA]},{qq,Length[BB]}]/.ind->List;
 		ParallelSum[If[Length[Cases[{AA[[index[[ii,1]]]],BB[[index[[ii,2]]]]},FF[___],\[Infinity]]]<=1,AA[[index[[ii,1]]]]BB[[index[[ii,2]]]],(AA[[index[[ii,1]]]]BB[[index[[ii,2]]]]/.FF[___]->1)(FF@@Join[List@@(Cases[{AA[[index[[ii,1]]]]},FF[___],\[Infinity]][[1]]),List@@(Cases[{BB[[index[[ii,2]]]]},FF[___],\[Infinity]][[1]])])],{ii,Length[index]}]
 	]/;!ListQ[a]&&!ListQ[b]
 ParallelCircleTimes[a_, b_] := ParallelCircleTimes[a,#]& /@ b /;!ListQ[a]&&ListQ[b]
