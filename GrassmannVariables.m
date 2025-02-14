@@ -31,7 +31,7 @@ ParallelCircleTimes[a_, b_] :=
 	]/;!ListQ[a]&&!ListQ[b]
 ParallelCircleTimes[a_, b_] := ParallelCircleTimes[a,#]& /@ b /;!ListQ[a]&&ListQ[b]
 ParallelCircleTimes[a_, b_] := ParallelCircleTimes[#,b]& /@ a /;ListQ[a]&&!ListQ[b]
-ParallelCircleTimes[a_,b_,c__] := ParallelCircleTimes[a,ParallelCircleTimes[b,c]]
+ParallelCircleTimes[a_, b_ , c__] := ParallelCircleTimes[a,ParallelCircleTimes[b,c]]
 
 Clear[GDot]
 GDot[a_, b_] := Expand@Table[Sum[a[[pp,kk]]\[CircleTimes]b[[kk,qq]],{kk,Length[b]}],{pp,Length[a]},{qq,Length[b[[1]]]}]/;MatrixQ[a]&&MatrixQ[b]&&TrueQ[Length[a[[1]]]==Length[b]]
