@@ -5,7 +5,7 @@ Clone this repository using
 ```console
 git clone https://github.com/AlexanderGTumanov/grassmann-variables-for-mathematica.git
 ```
-This will create a new directory ``grassmann-variables-for-mathematica`` in the current working directory. In your notebook file, add
+This will create a new directory ``grassmann-variables-for-mathematica`` in the current working directory. Alternatively, you can manually download the ``GrassmannVaribles.m`` file. In your notebook file, add
 ```mathematica
 SetDirectory["location_of_the_grassmann-variables-for-mathematica_folder"];
 <<GrassmannVariables`;
