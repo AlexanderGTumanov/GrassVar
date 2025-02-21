@@ -9,6 +9,7 @@ FF[a___] := Signature[List@a]FF@@Sort[List@a]/;!OrderedQ[List@a]
 FF[a___] := 0/;Length@Union[List@a]<Length[List@a]
 FF[a___] := 0/;MemberQ[List@a,0]
 FF[] := 1
+FF::usage = "FF[\[Theta][1],...,\[Theta][n]] represents an ordered product of n Grassmann varibles.";
 
 Clear[CircleTimes]
 a_\[CircleTimes]b_ := 
@@ -20,6 +21,7 @@ a_\[CircleTimes]b_ :=
 a_\[CircleTimes]b_ := a\[CircleTimes]#& /@ b /;!ListQ[a]&&ListQ[b]
 a_\[CircleTimes]b_ := #\[CircleTimes]b& /@ a /;ListQ[a]&&!ListQ[b]
 CircleTimes[a_, b_, c__] := a\[CircleTimes](b\[CircleTimes]c)
+CircleTimes::usage = "CircleTimes[X[1],...,X[n]] (or X[1]\[CircleTimes]...\[CircleTimes]X[n]) computes the product of n Grassmann polynomials. All X[i] should be linear combinations of FF functions with bosonic prefactors.";
 
 Clear[ParallelCircleTimes]
 ParallelCircleTimes[a_, b_] := 
@@ -32,6 +34,7 @@ ParallelCircleTimes[a_, b_] :=
 ParallelCircleTimes[a_, b_] := ParallelCircleTimes[a,#]& /@ b /;!ListQ[a]&&ListQ[b]
 ParallelCircleTimes[a_, b_] := ParallelCircleTimes[#,b]& /@ a /;ListQ[a]&&!ListQ[b]
 ParallelCircleTimes[a_, b_ , c__] := ParallelCircleTimes[a,ParallelCircleTimes[b,c]]
+ParallelCircleTimes::usage = "ParallelCircleTimes[X[1],...,X[n]] computes the product of n Grassmann polynomials, while utilizing parallel evaluation. All X[i] should be linear combinations of FF functions with bosonic prefactors.";
 
 Clear[GDot]
 GDot[a_, b_] := Expand@Table[Sum[a[[pp,kk]]\[CircleTimes]b[[kk,qq]],{kk,Length[b]}],{pp,Length[a]},{qq,Length[b[[1]]]}]/;MatrixQ[a]&&MatrixQ[b]&&TrueQ[Length[a[[1]]]==Length[b]]
@@ -39,6 +42,15 @@ GDot[a_, b_] := Expand@Table[Sum[a[[pp,kk]]\[CircleTimes]b[[kk]],{kk,Length[b]}]
 GDot[a_, b_] := Expand@Table[Sum[a[[kk]]\[CircleTimes]b[[kk,qq]],{kk,Length[b]}],{qq,Length[b[[1]]]}]/;VectorQ[a]&&MatrixQ[b]&&TrueQ[Length[a]==Length[b]]
 GDot[a_, b_] := Expand@Sum[a[[kk]]\[CircleTimes]b[[kk]],{kk,Length[b]}]/;VectorQ[a]&&VectorQ[b]&&TrueQ[Length[a]==Length[b]]
 GDot[a_, b_, c__] := GDot[a,GDot[b,c]]
+GDot::usage = "GDot[M[1],...,M[n]] computes the product of n matrices/vectors of matching dimensions with Grassmann entries.";
+
+Clear[ParallelGDot]
+ParallelGDot[a_, b_] := Expand@Table[Sum[ParallelCircleTimes[a[[pp,kk]],b[[kk,qq]]],{kk,Length[b]}],{pp,Length[a]},{qq,Length[b[[1]]]}]/;MatrixQ[a]&&MatrixQ[b]&&TrueQ[Length[a[[1]]]==Length[b]]
+ParallelGDot[a_, b_] := Expand@Table[Sum[ParallelCircleTimes[a[[pp,kk]],b[[kk]]],{kk,Length[b]}],{pp,Length[a]}]/;MatrixQ[a]&&VectorQ[b]&&TrueQ[Length[a[[1]]]==Length[b]]
+ParallelGDot[a_, b_] := Expand@Table[Sum[ParallelCircleTimes[a[[kk]],b[[kk,qq]]],{kk,Length[b]}],{qq,Length[b[[1]]]}]/;VectorQ[a]&&MatrixQ[b]&&TrueQ[Length[a]==Length[b]]
+ParallelGDot[a_, b_] := Expand@Sum[ParallelCircleTimes[a[[kk]],b[[kk]]],{kk,Length[b]}]/;VectorQ[a]&&VectorQ[b]&&TrueQ[Length[a]==Length[b]]
+ParallelGDot[a_, b_, c__] := ParallelGDot[a,ParallelGDot[b,c]]
+ParallelGDot::usage = "ParallelGDot[M[1],...,M[n]] computes the product of n matrices/vectors of matching dimensions with Grassmann entries, while utilizing parallel evaluation.";
 
 Clear[GIntegrate]
 GIntegrate[a_, \[Theta]_, norm_] := (a/.FF->FFreplaced/.FFreplaced[AA___,\[Theta],BB___]:>norm (-1)^Length[{AA}] FF[AA,BB]/.FFreplaced[___]:>0)-(a/.FF[___]:>0)/;!ListQ[a]&&!ListQ[\[Theta]]
@@ -46,6 +58,7 @@ GIntegrate[a_, \[Theta]_, norm_] := GIntegrate[#,\[Theta]]&/@a/;VectorQ[a]&&!Lis
 GIntegrate[a_, \[Theta]_, norm_] := Block[{output=a},Do[output=GIntegrate[output,\[Theta][[Length[\[Theta]]-kk+1]],norm],{kk,Length[\[Theta]]}];output]/;!ListQ[a]&&VectorQ[\[Theta]]
 GIntegrate[a_, \[Theta]_, norm_] := GIntegrate[#,\[Theta]]&/@a/;VectorQ[a]&&VectorQ[\[Theta]]
 GIntegrate[a_, \[Theta]_] := GIntegrate[a,\[Theta],1]
+GIntegrate::usage = "GIntegrate[expr,\[Theta]] computes the integral \[Integral]d\[Theta] expr, assuming \[Integral]d\[Theta] \[Theta] = 1. GIntegrate[expr,{\[Theta][1],...,\[Theta][n]}] computes \[Integral]\!\(\*SubscriptBox[\(d\[Theta]\), \(1\)]\)...\!\(\*SubscriptBox[\(d\[Theta]\), \(n\)]\) expr. GIntegrate[expr,vars,norm] modifies the normalization to \[Integral]d\[Theta] \[Theta] = norm.";
 
 Clear[GExp]
 GExp[a_] :=
@@ -53,3 +66,4 @@ GExp[a_] :=
 		While[!FreeQ[CC,FF[___]],DD=DD+CC;pp=pp+1;CC=(CC\[CircleTimes]BB)/pp];
 		Exp@Expand[AA]Expand[DD]
 	]/;!ListQ[a]
+GExp::usage = "GExp[expr] computes the exponential of a Grassmann polynomial by Taylor expanding it.";
