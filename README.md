@@ -17,7 +17,7 @@ $$
 \theta_i\ \theta_j = -\ \theta_j\ \theta_i\ .
 $$
 
-This implies that each individual varaible is nilpotent: $\theta_i^2 = 0$. The general element of a Grassmann algebra is given by a product of monomials of $\theta_i$ with regular (bosonic) prefactors:
+This implies that each individual varaible is nilpotent: $\theta_i^2 = 0$. The general element of the Grassmann algebra is given by a product of monomials of $\theta_i$ with regular (bosonic) prefactors:
 
 $$
 X = \sum\limits_n \sum\limits_{i_1\ldots i_n} c_{i_1\ldots i_n}\ \theta_1\ \ldots\ \theta_n\ .
