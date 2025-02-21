@@ -34,7 +34,7 @@ ParallelCircleTimes[a_, b_] :=
 ParallelCircleTimes[a_, b_] := ParallelCircleTimes[a,#]& /@ b /;!ListQ[a]&&ListQ[b]
 ParallelCircleTimes[a_, b_] := ParallelCircleTimes[#,b]& /@ a /;ListQ[a]&&!ListQ[b]
 ParallelCircleTimes[a_, b_ , c__] := ParallelCircleTimes[a,ParallelCircleTimes[b,c]]
-ParallelCircleTimes::usage = "ParallelCircleTimes[X[1],...,X[n]] computes the product of n Grassmann polynomials, while utilizing parallel evaluation. All X[i] should be linear combinations of FF functions with bosonic prefactors.";
+ParallelCircleTimes::usage = "ParallelCircleTimes[X[1],...,X[n]] computes the product of n Grassmann polynomials. All X[i] should be linear combinations of FF functions with bosonic prefactors. This function uses parallel evaluation.";
 
 Clear[GDot]
 GDot[a_, b_] := Expand@Table[Sum[a[[pp,kk]]\[CircleTimes]b[[kk,qq]],{kk,Length[b]}],{pp,Length[a]},{qq,Length[b[[1]]]}]/;MatrixQ[a]&&MatrixQ[b]&&TrueQ[Length[a[[1]]]==Length[b]]
@@ -50,7 +50,7 @@ ParallelGDot[a_, b_] := Expand@Table[Sum[ParallelCircleTimes[a[[pp,kk]],b[[kk]]]
 ParallelGDot[a_, b_] := Expand@Table[Sum[ParallelCircleTimes[a[[kk]],b[[kk,qq]]],{kk,Length[b]}],{qq,Length[b[[1]]]}]/;VectorQ[a]&&MatrixQ[b]&&TrueQ[Length[a]==Length[b]]
 ParallelGDot[a_, b_] := Expand@Sum[ParallelCircleTimes[a[[kk]],b[[kk]]],{kk,Length[b]}]/;VectorQ[a]&&VectorQ[b]&&TrueQ[Length[a]==Length[b]]
 ParallelGDot[a_, b_, c__] := ParallelGDot[a,ParallelGDot[b,c]]
-ParallelGDot::usage = "ParallelGDot[M[1],...,M[n]] computes the product of n matrices/vectors of matching dimensions with Grassmann entries, while utilizing parallel evaluation.";
+ParallelGDot::usage = "ParallelGDot[M[1],...,M[n]] computes the product of n matrices/vectors of matching dimensions with Grassmann entries. This function uses parallel evaluation.";
 
 Clear[GIntegrate]
 GIntegrate[a_, \[Theta]_, norm_] := (a/.FF->FFreplaced/.FFreplaced[AA___,\[Theta],BB___]:>norm (-1)^Length[{AA}] FF[AA,BB]/.FFreplaced[___]:>0)-(a/.FF[___]:>0)/;!ListQ[a]&&!ListQ[\[Theta]]
