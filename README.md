@@ -5,7 +5,7 @@ Clone this repository using
 ```console
 git clone https://github.com/AlexanderGTumanov/GrassVar.git
 ```
-Inside the repository, you'll find the ``mathematica`` folder with ``GrassVar.m``.
+Inside the repository, you'll find the ``GrassVar.m`` file.
 In Mathematica:
 ```mathematica
 Get["/path/to/GrassVar/mathematica/GrassVar.m"]
