@@ -3,13 +3,15 @@ An implementation of Grassmann anticommuting variables in Wolfram Mathematica.
 ## Installation
 Clone this repository using
 ```console
-git clone https://github.com/AlexanderGTumanov/grassmann-variables-for-mathematica.git
+git clone https://github.com/AlexanderGTumanov/GrassVar.git
 ```
-This will create a new directory ``grassmann-variables-for-mathematica`` in the current working directory. Alternatively, you can manually download the ``GrassmannVaribles.m`` file. In your notebook file, add
+Inside the repository, you'll find the ``mathematica`` folder with ``GrassVar.m``.
+In Mathematica:
 ```mathematica
-SetDirectory["location_of_the_grassmann-variables-for-mathematica_folder"];
-<<GrassmannVariables`;
+Get["/path/to/GrassVar/mathematica/GrassVar.m"]
 ```
+Replace ``/path/to`` with the actual path where you cloned the repository.
+
 ## Definitions
 Grassmann varibles (numbers) satisfy anticommutation relations
 
